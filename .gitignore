@@ -11,7 +11,7 @@
 __pycache__/
 *.pyc
 venv/
-backend/.env
+.env
 .DS_Store
 
 # OS and IDE
