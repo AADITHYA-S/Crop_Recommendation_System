@@ -6,17 +6,22 @@ from sklearn.preprocessing import LabelEncoder,StandardScaler
 from sklearn.metrics import classification_report,accuracy_score,r2_score,mean_squared_error
 from xgboost import XGBClassifier,XGBRegressor
 
-df=pd.read_csv(r'C:\\ABHIRAM\Mini Project\\crop_system\\data\\Fertilizer Prediction.csv')
+df=pd.read_csv(r'C:\ABHIRAM\Mini Project\crop_system\data\fertilizer_dataset_full.csv')
 
 
 #Encode categorical features
-soilType_enc=LabelEncoder()
-crop_encoder=joblib.load('backend/models/pkl/modelA/crop_encoder.pkl')
-fert_enc=LabelEncoder()
+label_encoders=joblib.load(r"C:\ABHIRAM\Mini Project\crop_system\backend\models\pkl\encoders.pkl")
+cat_col=["Crop","Crop_Stage","Soil_Type","Fertilizer_Name"]
 
-df["soil_encoded"]=soilType_enc.fit_transform(df["Soil Type"])
-df["crop_encoded"]=crop_encoder.transform(df["Crop Type"])
-df["fert_encoded"]=fert_enc.fit_transform(df["Fertilizer Name"])
+for col in cat_col:
+    if col in label_encoders and col in df.columns:
+        le = label_encoders[col]
+        df[col] = df[col].apply(
+            lambda x: le.transform([x])[0] if x in le.classes_ else -1
+        )
+
+print("✅ Encoding done for:", cat_col)
+
 
 #Fill missing values
 # df = df.fillna(df.median())
@@ -24,9 +29,9 @@ df["fert_encoded"]=fert_enc.fit_transform(df["Fertilizer Name"])
 
 
 #Features and Targets
-features=["Temparature","Humidity ","Moisture","soil_encoded","crop_encoded","Nitrogen","Potassium","Phosphorous","N_need","P_need","K_need"]
+features=["Temperature","Humidity","Moisture","Soil_Type","Crop","Nitrogen","Potassium","Phosphorous","N_need","P_need","K_need"]
 X=df[features]
-y_class=df["fert_encoded"]
+y_class=df["Fertilizer_Name"]
 y_reg=df["Fertilizer Quantity (kg/acre)"]
 
 #Scaleing
@@ -47,7 +52,7 @@ print("Data split into training and test")
 clf=XGBClassifier(
     objective='multi:softmax',
     eval_metric='mlogloss',
-    num_class=len(fert_enc.classes_),
+    num_class=len(label_encoders["Fertilizer_Name"].classes_),
     n_estimators=300,
     learning_rate=0.1,
     max_depth=5,
@@ -69,15 +74,18 @@ print("Model trained")
 y_pred_class=clf.predict(X_test)
 print("\nFertilizer Type classifier")
 print("Acuuracy Score:",accuracy_score(y_class_test,y_pred_class))
+
+fert_le = label_encoders["Fertilizer_Name"]
 print("Classification Report:\n",
       classification_report(
           y_class_test, 
           y_pred_class, 
-          labels=range(len(fert_enc.classes_)), 
-          target_names=fert_enc.classes_,
+          labels=range(len(fert_le.classes_)),      # e.g. 0,1,2,... for each fertilizer
+          target_names=fert_le.classes_,            # ['Urea', 'DAP', '14-35-14', ...]
           zero_division=0
       )
 )
+
 
 cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 scores = cross_val_score(clf, X_scaled, y_class, cv=cv, scoring='accuracy')
@@ -97,11 +105,9 @@ print("Final model retrained on full data")
 
 #save model and encoders
 joblib.dump(clf,"backend/models/pkl/fertilizer_type_model.pkl")
-joblib.dump(reg,"backend/models/pkl/fertilizer_quantity_model.pkl")
-joblib.dump(soilType_enc,"backend/models/pkl/soilType_encoder.pkl")  
-joblib.dump(fert_enc,"backend/models/pkl/fertilizer_encoder.pkl")
+
 joblib.dump(scaler,"backend/models/pkl/fertilizer_scaler.pkl")
-print("Models and encoders saved")
+print("Model saved")
   
 
 
