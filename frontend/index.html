@@ -288,7 +288,7 @@
       <div class="history-grid">
         <div class="history-section">
           <h3>Recent Recommendations</h3>
-          <div id="recHistory"></div>
+          <div id="adviceBox"></div>
         </div>
         <div class="history-section">
           <h3>Recent Suitability Checks</h3>
@@ -302,17 +302,17 @@
 
   <!-- ✅ Supabase & Auth JS -->
   <!-- ✅ Supabase JS + Auth logic -->
-<script type="module">
-  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-  import { handleSignup, handleLogin, handleLogout } from "./auth.js";
+<!-- <script type="module">
+  // import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+  // import { handleSignup, handleLogin, handleLogout } from "./auth.js";
 
-  // Connect Supabase once
-  const supabase = createClient(
-    "https://jftrkenddbzdheboymxg.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpmdHJrZW5kZGJ6ZGhlYm95bXhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyNjE0NTYsImV4cCI6MjA3NzgzNzQ1Nn0.55Pppz20H604mFbCZqnxPlQzzmg7TM0zDCmFXvexQHQ"
-  );
+  // // Connect Supabase once
+  // const supabase = createClient(
+  //   "https://jftrkenddbzdheboymxg.supabase.co",
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpmdHJrZW5kZGJ6ZGhlYm95bXhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyNjE0NTYsImV4cCI6MjA3NzgzNzQ1Nn0.55Pppz20H604mFbCZqnxPlQzzmg7TM0zDCmFXvexQHQ"
+  // );-->
 
-  window.addEventListener("DOMContentLoaded", () => {
+  <!-- window.addEventListener("DOMContentLoaded", () => {
     // navigation buttons
     document.getElementById("navSignupBtn")?.addEventListener("click", () => showPage("signupPage"));
     document.getElementById("navLoginBtn")?.addEventListener("click", () => showPage("loginPage"));
@@ -324,18 +324,15 @@
     document.getElementById("signupBtn")?.addEventListener("click", handleSignup);
     document.getElementById("loginBtn")?.addEventListener("click", handleLogin);
     document.getElementById("logoutBtn")?.addEventListener("click", handleLogout);
-  });
+  }); -->
 
-  function showPage(pageId) {
-    const pages = ["landingPage", "signupPage", "loginPage", "dashboardPage"];
-    pages.forEach((page) => {
-      const element = document.getElementById(page);
-      if (element) element.classList.toggle("hidden", page !== pageId);
-    });
-  }
+  
 </script>
-<script type="module" src="./dashboard.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.js"></script>
+<script type="module" src="config.js"></script>
+<script type="module" src="supabaseClient.js"></script>
+<script type="module" src="auth.js"></script>
+<script type="module" src="dashboard.js"></script>
 
 </body>
 </html>
