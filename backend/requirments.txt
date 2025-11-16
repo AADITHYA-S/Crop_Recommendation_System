@@ -29,3 +29,5 @@ scikit-learn
 matplotlib
 seaborn
 xgboost
+shap
+supabase

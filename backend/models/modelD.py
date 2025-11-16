@@ -9,7 +9,8 @@ df=pd.read_csv("C:\ABHIRAM\Mini Project\crop_system\data\yield_prediction_datase
 
 #feature selection
 target="Yield"
-X=df.drop(columns=["Date","State","District","Season","Fertilizer_Name","Yield"])
+features=["Temp_Avg","Rainfall","Soil_Moisture","Soil_Type","Crop","Crop_Stage","NDVI"]
+X=df[features]
 y=df[target]
 
 #encode categorical columns
