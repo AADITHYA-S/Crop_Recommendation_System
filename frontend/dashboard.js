@@ -248,14 +248,14 @@ if (!field) {
   document.getElementById("userName").textContent = farmer.name;
 
   // field summary
-  const info = document.createElement("div");
-  info.classList.add("field-summary");
-  info.innerHTML = `
-    <p><strong>Soil Type:</strong> ${field.soil_type}</p>
-    <p><strong>Area:</strong> ${field.area}</p>
-    <p><strong>Coordinates:</strong> ${field.latitude}, ${field.longitude}</p>
-  `;
-  document.querySelector(".dashboard-container").prepend(info);
+  // const info = document.createElement("div");
+  // info.classList.add("field-summary");
+  // info.innerHTML = `
+  //   <p><strong>Soil Type:</strong> ${field.soil_type}</p>
+  //   <p><strong>Area:</strong> ${field.area}</p>
+  //   <p><strong>Coordinates:</strong> ${field.latitude}, ${field.longitude}</p>
+  // `;
+  // document.querySelector(".dashboard-container").prepend(info);
 
   document.getElementById("recommendBtn")?.addEventListener("click", handleRecommend);
   document.getElementById("suitabilityBtn")?.addEventListener("click", runSuitability);

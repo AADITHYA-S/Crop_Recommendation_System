@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Float, ForeignKey,String
+from sqlalchemy import Column, Integer, Float, ForeignKey,String, JSON
 from database.database import Base
 from sqlalchemy.orm import relationship
 
@@ -11,6 +11,9 @@ class Field(Base):
     longitude = Column(Float)
     area = Column(Float)
     soil_type=Column(String)
+    crop=Column(String)
+    last_stage=Column(String)
+    latest_weather=Column(JSON)
 
 
     # Relationship back to Farmer

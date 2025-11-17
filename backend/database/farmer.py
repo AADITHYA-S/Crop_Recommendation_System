@@ -8,6 +8,8 @@ class Farmer(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id=Column(String,unique=True,index=True)
     name = Column(String)
+    phone = Column(String, nullable=True)
+    # email = Column(String, unique=True, index=True)
     language = Column(String)
     polygon_id = Column(String, nullable=True)
 
